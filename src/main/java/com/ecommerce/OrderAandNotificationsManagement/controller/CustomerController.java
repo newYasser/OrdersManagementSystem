@@ -14,22 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
-
-
     
     @GetMapping("/get-customer-by-id/{id}")
-    public ResponseEntity<Customer>getCustomerByid(@PathVariable Integer id){
-        return new ResponseEntity<>(customerService.getCustomerById(id),HttpStatus.OK);
-    }
-
-    @PostMapping("/add-account/{id}")
-    public ResponseEntity<Customer> addAccoubtUsingCustomerId(@PathVariable Integer id, @RequestBody Account account){
-        try {
-            Customer addedCustomer = customerService.addAccountUsingCustomerId(id,account);
-            return new ResponseEntity<>(addedCustomer,HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Customer>getCustomerByid(@PathVariable Integer id) {
+        return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
     }
 
     @PostMapping("/add-customer")
@@ -42,5 +30,7 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
+
 
 }
