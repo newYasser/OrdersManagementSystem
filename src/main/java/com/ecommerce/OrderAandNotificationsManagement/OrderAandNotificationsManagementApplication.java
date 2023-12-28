@@ -10,4 +10,6 @@ public class OrderAandNotificationsManagementApplication {
 		SpringApplication.run(OrderAandNotificationsManagementApplication.class, args);
 	}
 
+
+
 }

@@ -2,7 +2,7 @@ package com.ecommerce.OrderAandNotificationsManagement.controller;
 
 
 import com.ecommerce.OrderAandNotificationsManagement.entity.Product;
-import com.ecommerce.OrderAandNotificationsManagement.repository.ProductRepo;
+import com.ecommerce.OrderAandNotificationsManagement.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    ProductRepo productRepo;
+    ProductRepository productRepo;
 
     @GetMapping("/get-all-products")
     public ResponseEntity<List<Product>> getAllProducts(){

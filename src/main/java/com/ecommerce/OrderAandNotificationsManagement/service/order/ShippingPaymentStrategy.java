@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ShippingPaymentStrategy {
-    public long calaculateShippingFees(OrderEntity order);
+    public long calaculateShippingFees();
 }
