@@ -7,13 +7,8 @@ import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
 import com.ecommerce.OrderAandNotificationsManagement.service.CustomerService;
 import com.ecommerce.OrderAandNotificationsManagement.service.OrderDetailService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.CompoundOrderService;
-import com.ecommerce.OrderAandNotificationsManagement.service.order.OrderService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.SimplerOrderService;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.hibernate.Internal;
-import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.reactive.filter.OrderedWebFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +29,13 @@ public class OrderController {
     @Autowired
     private OrderDetailService orderDetailService;
 
-    @PostMapping("/add-simpler-order/{customer_id}")
+    @PostMapping("/add-simple-order/{customer_id}")
     public ResponseEntity<OrderEntity>addSimpleOrderByCustomerId(
             @RequestBody List<OrderDetail> orderDetails,
             @PathVariable Integer customer_id){
         Customer customer = customerService.getCustomerById(customer_id);
         OrderEntity newOrder = simplerOrderService.saveOrderWithOrderDetailsAndCustomer(orderDetails,customer);
+
         return new ResponseEntity<>(newOrder,HttpStatus.OK);
     }
 
@@ -53,8 +49,4 @@ public class OrderController {
         OrderEntity order = simplerOrderService.getOrderById(id);
         return order;
     }
-
-
-
-
 }

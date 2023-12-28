@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -44,9 +43,11 @@ public class SimplerOrderService extends OrderService{
         orderEntity.setDate(Date.valueOf(LocalDate.now()));
         for(OrderDetail orderDetail: orderDetails){
             OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
+            orderDetail.setOrder(orderEntity);
             orderEntity.getOrderDetails().add(newOrderDetail);
         }
         return orderRepository.save(orderEntity);
+
     }
 
 

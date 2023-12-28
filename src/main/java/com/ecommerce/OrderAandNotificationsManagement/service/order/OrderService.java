@@ -43,8 +43,6 @@ public abstract class OrderService {
         }
         return finalFees;
     }
-
-
     protected boolean hasEnoughMoneyOnHisAccount(Integer order_id, long totalCost) {
         OrderEntity order = getOrderById(order_id);
         if(order.getCustomer().getAccount().getBalance() - totalCost <= 0) return true;
@@ -64,6 +62,8 @@ public abstract class OrderService {
             customerRepository.save(customer);
         }
     }
+
+
     public abstract long  calculateShippingCost();
 
 }
