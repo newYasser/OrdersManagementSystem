@@ -5,9 +5,12 @@ import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderDetail;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
 import com.ecommerce.OrderAandNotificationsManagement.repository.OrderDetailRepository;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +35,14 @@ public class CompoundOrderService extends OrderService {
     }
 
     public List<OrderEntity>getCompoundOrderById(Integer id){
-
-        return null;
+        List<OrderEntity>orders = orderRepository.findAll();
+        List<OrderEntity>compoundOrder = new ArrayList<>();
+        for(OrderEntity order:orders){
+            if(order.getId().equals(id)){
+                compoundOrder.add(order);
+            }
+        }
+        return compoundOrder;
     }
 
     public void payOrdersCompoundOrder(List<OrderEntity>orders) {

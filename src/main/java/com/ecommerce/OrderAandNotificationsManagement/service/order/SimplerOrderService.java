@@ -26,7 +26,6 @@ public class SimplerOrderService extends OrderService{
         super(shippingPaymentStrategy);
     }
 
-
     @Override
     public long calculateShippingCost() {
         return shippingPaymentStrategy.calaculateShippingFees();
@@ -35,6 +34,16 @@ public class SimplerOrderService extends OrderService{
         orderRepository.deleteById(id);
     }
 
+    public void CanelOrderByOrderId(Integer order_id){
+        OrderEntity order = orderRepository.getReferenceById(order_id);
+        long orderPrice = 0;
+        for(OrderDetail orderDetail: order.getOrderDetails()){
+            orderPrice += orderDetail.getQunaitity() * orderDetail.getProduct().getPrice();
+        }
+        long currentBalance = order.getCustomer().getAccount().getBalance();
+        order.getCustomer().getAccount().setBalance(currentBalance + orderPrice);
+        deleteOrderById(order_id);
+    }
 
 
 }
