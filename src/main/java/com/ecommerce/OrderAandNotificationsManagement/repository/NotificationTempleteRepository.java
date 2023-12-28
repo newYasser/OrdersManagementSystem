@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NotificationTempleteRepository extends JpaRepository<NotificationTemplate,Integer> {
+    NotificationTemplate findByName(String name);
+    NotificationTemplate findByType(String type);
 }

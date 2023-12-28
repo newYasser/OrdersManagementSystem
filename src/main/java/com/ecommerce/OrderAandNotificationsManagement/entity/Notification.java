@@ -26,3 +26,5 @@ public class Notification {
     private NotificationTemplate notificationTemplate;
 
 }
+
+
