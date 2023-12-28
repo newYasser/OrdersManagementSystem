@@ -1,5 +1,6 @@
 package com.ecommerce.OrderAandNotificationsManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,9 @@ public class OrderDetail  {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private OrderEntity order;
+
     @Column
     private int qunaitity;
 
