@@ -34,7 +34,7 @@ public class CustomerService {
     }
 
     public Customer getCustomerById(Integer id){
-        Optional<Customer>customer = customerRepository.findById(id);
+        Optional<Customer> customer = customerRepository.findById(id);
         return customer.get();
     }
 

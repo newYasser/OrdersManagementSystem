@@ -35,20 +35,6 @@ public class SimplerOrderService extends OrderService{
         orderRepository.deleteById(id);
     }
 
-    public OrderEntity saveOrderWithOrderDetailsAndCustomer(List<OrderDetail> orderDetails, Customer customer){
-        OrderEntity orderEntity = new OrderEntity();
-        orderRepository.save(orderEntity);
-        orderEntity.setCustomer(customer);
-        orderEntity.setTime(Time.valueOf(LocalTime.now()));
-        orderEntity.setDate(Date.valueOf(LocalDate.now()));
-        for(OrderDetail orderDetail: orderDetails){
-            OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
-            orderDetail.setOrder(orderEntity);
-            orderEntity.getOrderDetails().add(newOrderDetail);
-        }
-        return orderRepository.save(orderEntity);
-
-    }
 
 
 }

@@ -12,6 +12,11 @@ import com.ecommerce.OrderAandNotificationsManagement.service.OrderDetailService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +26,8 @@ public abstract class OrderService {
     protected CustomerRepository customerRepository;
     @Autowired
     protected OrderRepository orderRepository;
+    @Autowired
+    protected OrderDetailRepository orderDetailRepository;
 
     protected final ShippingPaymentStrategy shippingPaymentStrategy;
 
@@ -62,7 +69,20 @@ public abstract class OrderService {
             customerRepository.save(customer);
         }
     }
+    public OrderEntity saveOrderWithOrderDetailsAndCustomer(List<OrderDetail> orderDetails, Customer customer){
+        OrderEntity orderEntity = new OrderEntity();
+        orderRepository.save(orderEntity);
+        orderEntity.setCustomer(customer);
+        orderEntity.setTime(Time.valueOf(LocalTime.now()));
+        orderEntity.setDate(Date.valueOf(LocalDate.now()));
+        for(OrderDetail orderDetail: orderDetails){
+            OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
+            orderDetail.setOrder(orderEntity);
+            orderEntity.getOrderDetails().add(newOrderDetail);
+        }
+        return orderRepository.save(orderEntity);
 
+    }
 
     public abstract long  calculateShippingCost();
 

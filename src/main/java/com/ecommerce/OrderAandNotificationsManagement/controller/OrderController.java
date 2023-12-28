@@ -1,6 +1,7 @@
 package com.ecommerce.OrderAandNotificationsManagement.controller;
 
 
+import com.ecommerce.OrderAandNotificationsManagement.dto.CompoundOrderDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderDetail;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
@@ -39,10 +40,11 @@ public class OrderController {
         return new ResponseEntity<>(newOrder,HttpStatus.OK);
     }
 
-    @PostMapping("/add-compound-order/{customer_id}")
-    public void addCompoundOrderBy(@RequestBody OrderEntity mainOrder,@RequestBody List<OrderEntity>orders){
+    @PostMapping("/add-compound-order")
+    public void addCompoundOrderBy(@RequestBody List<OrderEntity> orders) {
         compoundOrderService.addOrder(orders);
     }
+
 
     @GetMapping("/get-simple-order/{id}")
     public OrderEntity getOrderById(@PathVariable Integer id){

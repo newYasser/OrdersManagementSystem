@@ -35,7 +35,6 @@ public class OrderEntity {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonIgnore
     private Customer customer;
 
     @OneToOne(mappedBy = "order")

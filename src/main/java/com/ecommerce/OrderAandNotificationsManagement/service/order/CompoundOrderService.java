@@ -1,6 +1,7 @@
 package com.ecommerce.OrderAandNotificationsManagement.service.order;
 
 
+import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderDetail;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
 import com.ecommerce.OrderAandNotificationsManagement.repository.OrderDetailRepository;
@@ -25,11 +26,9 @@ public class CompoundOrderService extends OrderService {
     }
 
     public void addOrder(List<OrderEntity> orderEntities) {
-        int order_id = orderRepository.save(orderEntities.get(0)).getId();
         for(OrderEntity order : orderEntities){
-            order.setId(order_id);
+            saveOrderWithOrderDetailsAndCustomer(order.getOrderDetails(),order.getCustomer());
         }
-        orderRepository.saveAll(orderEntities);
     }
 
     public List<OrderEntity>getCompoundOrderById(Integer id){

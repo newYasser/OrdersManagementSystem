@@ -1,5 +1,6 @@
 package com.ecommerce.OrderAandNotificationsManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.context.annotation.AnnotationConfigUtils;
@@ -29,6 +30,7 @@ public class Customer {
     private Account account;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<OrderEntity> orders;
 
 }
