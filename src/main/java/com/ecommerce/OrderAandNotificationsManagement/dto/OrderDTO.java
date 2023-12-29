@@ -12,4 +12,5 @@ import java.util.List;
 @Setter
 public class OrderDTO {
     private List<OrderDetailDTO> orderDetails;
+
 }

@@ -37,4 +37,38 @@ public class OrderEntity {
     @JoinColumn(name = "customer_id")
     @JsonBackReference
     private Customer customer;
+
+    @OneToOne(mappedBy = "order")
+    @ToString.Exclude
+    private Shipment shipment;
+
+    @JsonIgnore
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+    @JsonIgnore
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+    @JsonIgnore
+
+    public Customer getCustomer() {
+        return customer;
+    }
+    @JsonIgnore
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    @JsonIgnore
+
+    public Shipment getShipment() {
+        return shipment;
+    }
+    @JsonIgnore
+
+    public void setShipment(Shipment shipment) {
+        this.shipment = shipment;
+    }
+
 }

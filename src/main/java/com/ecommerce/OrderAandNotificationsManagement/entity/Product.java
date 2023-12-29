@@ -30,8 +30,11 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     @JsonBackReference
     private Category category;
+    @JsonManagedReference
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
 
     @OneToMany(mappedBy = "product")
-    @JsonManagedReference
     private List<OrderDetail> orderDetails;
 }

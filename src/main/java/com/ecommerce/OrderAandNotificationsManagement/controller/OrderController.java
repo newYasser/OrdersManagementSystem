@@ -44,7 +44,11 @@ public class OrderController {
         }
     }
 
-
+    @GetMapping("/list-simple-order/{id}")
+    public ResponseEntity<OrderEntity>listSimpleOrder(@PathVariable Integer id){
+        OrderEntity order = simplerOrderService.listOrder(id);
+        return new ResponseEntity<>(order,HttpStatus.OK);
+    }
     @PostMapping("/add-compound-order")
     public void addCompoundOrderBy(@RequestBody List<OrderEntity> orders) {
         compoundOrderService.addOrder(orders);

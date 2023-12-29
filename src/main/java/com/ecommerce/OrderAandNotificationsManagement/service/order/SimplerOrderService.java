@@ -46,4 +46,7 @@ public class SimplerOrderService extends OrderService{
     }
 
 
+    public OrderEntity listOrder(Integer id) {
+        return orderRepository.findById(id).get();
+    }
 }

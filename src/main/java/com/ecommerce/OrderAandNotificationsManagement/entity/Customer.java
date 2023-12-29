@@ -31,7 +31,8 @@ public class Customer {
     private Account account;
 
     @OneToMany(mappedBy = "customer")
-    @JsonManagedReference
+//    @JsonManagedReference
+    @ToString.Exclude
     private List<OrderEntity> orders;
 
 }

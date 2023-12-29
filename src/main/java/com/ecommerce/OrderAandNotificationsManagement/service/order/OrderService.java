@@ -74,9 +74,6 @@ public abstract class OrderService {
 
 
 
-    public OrderEntity addOrder(OrderEntity order) {
-        return orderRepository.save(order);
-    }
     public OrderEntity getOrderById(Integer id){
         return orderRepository.findById(id).get();
     }
@@ -91,7 +88,7 @@ public abstract class OrderService {
     }
     protected boolean hasEnoughMoneyOnHisAccount(Integer order_id, long totalCost) {
         OrderEntity order = getOrderById(order_id);
-        if(order.getCustomer().getAccount().getBalance() - totalCost <= 0) return true;
+        if(order.getCustomer().getAccount().getBalance() - totalCost >= 0) return true;
         else return false;
     }
 
