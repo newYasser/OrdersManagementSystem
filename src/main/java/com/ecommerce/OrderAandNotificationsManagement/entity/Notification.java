@@ -19,4 +19,6 @@ public class Notification {
     private String subject;
     @Column
     private String message;
+    @Column(columnDefinition = "boolean default false")
+    private boolean isSent;
 }

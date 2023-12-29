@@ -33,14 +33,15 @@ public class OrderEntity {
     @JsonManagedReference
     private List<OrderDetail> orderDetails;
 
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     @JsonBackReference
     private Customer customer;
 
-    @OneToOne(mappedBy = "order")
-    @ToString.Exclude
+    @ManyToOne
     private Shipment shipment;
+
 
     @JsonIgnore
     public List<OrderDetail> getOrderDetails() {
@@ -60,15 +61,6 @@ public class OrderEntity {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    @JsonIgnore
 
-    public Shipment getShipment() {
-        return shipment;
-    }
-    @JsonIgnore
-
-    public void setShipment(Shipment shipment) {
-        this.shipment = shipment;
-    }
 
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "product")
+@Table(name = "shipments")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -20,7 +20,7 @@ public class Shipment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "order_id", unique = true)
-    private OrderEntity order;;
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    private List<OrderEntity> orders;;
 }

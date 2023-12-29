@@ -5,10 +5,7 @@ package com.ecommerce.OrderAandNotificationsManagement.service.order;
 import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDTO;
 import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDetailDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.*;
-import com.ecommerce.OrderAandNotificationsManagement.repository.CustomerRepository;
-import com.ecommerce.OrderAandNotificationsManagement.repository.OrderDetailRepository;
-import com.ecommerce.OrderAandNotificationsManagement.repository.OrderRepository;
-import com.ecommerce.OrderAandNotificationsManagement.repository.ProductRepository;
+import com.ecommerce.OrderAandNotificationsManagement.repository.*;
 import com.ecommerce.OrderAandNotificationsManagement.service.OrderDetailService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,8 @@ public abstract class OrderService {
     protected OrderDetailRepository orderDetailRepository;
     @Autowired
     protected ProductRepository productRepository;
+    @Autowired
+    protected ShipmentRepository shipmentRepository;
 
     protected final ShippingPaymentStrategy shippingPaymentStrategy;
 
@@ -73,7 +72,6 @@ public abstract class OrderService {
     }
 
 
-
     public OrderEntity getOrderById(Integer id){
         return orderRepository.findById(id).get();
     }
@@ -96,12 +94,22 @@ public abstract class OrderService {
         long totalCost = 0;
 
         totalCost += calculateTotalCost(order_id);
-        totalCost += calculateShippingCost();
 
         if(hasEnoughMoneyOnHisAccount(order_id,totalCost)){
             Customer customer = getOrderById(order_id).getCustomer();
             long cuurentBalance = customer.getAccount().getBalance();
             customer.getAccount().setBalance(cuurentBalance - totalCost);
+            customerRepository.save(customer);
+        }
+    }
+
+    public void  payShippingFees(Integer order_id){
+        long shippingFees = 0;
+        shippingFees += calculateShippingCost();
+        if(hasEnoughMoneyOnHisAccount(order_id,shippingFees)){
+            Customer customer = getOrderById(order_id).getCustomer();
+            long cuurentBalance = customer.getAccount().getBalance();
+            customer.getAccount().setBalance(cuurentBalance - shippingFees);
             customerRepository.save(customer);
         }
     }
@@ -118,6 +126,35 @@ public abstract class OrderService {
         }
         return orderRepository.save(orderEntity);
 
+    }
+
+    public void cancelSimpleOrderPlacment(Integer order_id){
+        Optional<OrderEntity>orderOptional = orderRepository.findById(order_id);
+        if(orderOptional.isPresent()){
+            OrderEntity order = orderOptional.get();
+            long orderFees = 0;
+            for(OrderDetail orderDetail:order.getOrderDetails()){
+                orderFees += orderDetail.getProduct().getPrice() * orderDetail.getQuantity();
+            }
+            Customer customer = order.getCustomer();
+            long currentBalance = customer.getAccount().getBalance();
+            customer.getAccount().setBalance(currentBalance + orderFees);
+            order.setCustomer(customer);
+            orderRepository.save(order);
+            orderRepository.deleteById(order_id);
+        }
+    }
+
+    public void cancelSimpleOrderShipment(Integer order_id){
+        Optional<OrderEntity>orderOptional = orderRepository.findById(order_id);
+        if(orderOptional.isPresent()) {
+            OrderEntity order = orderOptional.get();
+            Optional<Shipment>shipmentOptional = shipmentRepository.findById(order.getShipment().getId());
+            if(shipmentOptional.isPresent()){
+                Shipment shipment = shipmentOptional.get();
+                shipmentRepository.deleteById(shipment.getId());
+            }
+        }
     }
 
     public abstract long  calculateShippingCost();
