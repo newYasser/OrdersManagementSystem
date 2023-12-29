@@ -11,6 +11,5 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderDTO {
-    private Date date;
     private List<OrderDetailDTO> orderDetails;
 }

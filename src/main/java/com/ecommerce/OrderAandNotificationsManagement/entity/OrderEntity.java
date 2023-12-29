@@ -37,7 +37,4 @@ public class OrderEntity {
     @JoinColumn(name = "customer_id")
     @JsonBackReference
     private Customer customer;
-
-    @OneToOne(mappedBy = "order")
-    private Notification notification;
 }

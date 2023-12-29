@@ -2,22 +2,16 @@ package com.ecommerce.OrderAandNotificationsManagement.controller;
 
 
 import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDTO;
-import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDetailDTO;
-import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
-import com.ecommerce.OrderAandNotificationsManagement.entity.OrderDetail;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
 import com.ecommerce.OrderAandNotificationsManagement.service.CustomerService;
-import com.ecommerce.OrderAandNotificationsManagement.service.OrderDetailService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.CompoundOrderService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.SimplerOrderService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/order")
@@ -31,14 +25,25 @@ public class OrderController {
     private CustomerService customerService;
 
     @PostMapping("/add-simple-order/{customer_id}")
-    public ResponseEntity<List<OrderDetailDTO>> addSimpleOrderByCustomerId(
-            @RequestBody List<OrderDetailDTO> orderDetailDTO,
+    public ResponseEntity<HttpStatus> addSimpleOrderByCustomerId(
+            @RequestBody OrderDTO orderDTO,
             @PathVariable Integer customer_id) {
-//        OrderEntity order = new OrderEntity();
-//        order.setOrderDetails(orderDetailDTO);
-//        OrderEntity placedOrder = simplerOrderService.placeOrder(order, customer_id);
-        return new ResponseEntity<>(orderDetailDTO,HttpStatus.OK);
+        try {
+            OrderEntity placedOrder = simplerOrderService.placeOrder(orderDTO, customer_id);
+
+            if (placedOrder != null) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                // If placedOrder is null, it means the customer was not found
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // Handle other exceptions during order placement
+            e.printStackTrace();  // Log the exception for debugging purposes
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
     @PostMapping("/add-compound-order")
     public void addCompoundOrderBy(@RequestBody List<OrderEntity> orders) {
