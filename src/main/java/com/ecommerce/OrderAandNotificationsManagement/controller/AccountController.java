@@ -12,8 +12,8 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/add-account/{id}")
-    public Customer addAccountbyCustomerId(@PathVariable Integer customer_id,@RequestBody Account account){
+    @PostMapping("/add-account/{customer_id}")
+    public Customer addAccountByCustomerId(@PathVariable Integer customer_id,@RequestBody Account account){
         return accountService.addAccountWithCustomerId(customer_id,account);
     }
 }

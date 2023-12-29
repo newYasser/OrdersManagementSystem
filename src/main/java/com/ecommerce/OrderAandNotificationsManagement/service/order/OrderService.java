@@ -5,10 +5,13 @@ package com.ecommerce.OrderAandNotificationsManagement.service.order;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderDetail;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
+import com.ecommerce.OrderAandNotificationsManagement.entity.Product;
 import com.ecommerce.OrderAandNotificationsManagement.repository.CustomerRepository;
 import com.ecommerce.OrderAandNotificationsManagement.repository.OrderDetailRepository;
 import com.ecommerce.OrderAandNotificationsManagement.repository.OrderRepository;
+import com.ecommerce.OrderAandNotificationsManagement.repository.ProductRepository;
 import com.ecommerce.OrderAandNotificationsManagement.service.OrderDetailService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,8 @@ public abstract class OrderService {
     protected OrderRepository orderRepository;
     @Autowired
     protected OrderDetailRepository orderDetailRepository;
+    @Autowired
+    protected ProductRepository productRepository;
 
     protected final ShippingPaymentStrategy shippingPaymentStrategy;
 
@@ -35,6 +40,33 @@ public abstract class OrderService {
     public OrderService(ShippingPaymentStrategy shippingPaymentStrategy) {
         this.shippingPaymentStrategy = shippingPaymentStrategy;
     }
+
+    public OrderEntity placeOrder(OrderEntity order,Integer customer_id){
+        Optional<Customer> customerOptional = customerRepository.findById(customer_id);
+        if(customerOptional.isPresent()){
+            Customer customer = customerOptional.get();
+            order.setCustomer(customer);
+            order.setTime(Time.valueOf(LocalTime.now()));
+            order.setDate(Date.valueOf(LocalDate.now()));
+            for(OrderDetail orderDetail:order.getOrderDetails()){
+                Integer product_id = orderDetail.getProduct().getId();
+                Optional<Product> productOptional = productRepository.findById(product_id);
+                orderDetail.setProduct(productOptional.get());
+            }
+            List<OrderDetail>orderDetails = orderDetailRepository.saveAll(order.getOrderDetails());
+            order.setOrderDetails(orderDetails);
+            OrderEntity orderDB = orderRepository.save(order);
+            for(OrderDetail orderDetail: order.getOrderDetails()){
+                orderDetail.setOrder(orderDB);
+            }
+            OrderEntity finalOrder = orderRepository.save(orderDB);
+            return finalOrder;
+        }
+        return null;
+    }
+
+
+
     public OrderEntity addOrder(OrderEntity order) {
         return orderRepository.save(order);
     }
@@ -46,7 +78,7 @@ public abstract class OrderService {
         Optional<OrderEntity> orderOptional = orderRepository.findById(order_id);
 
         for(OrderDetail orderDetail : orderOptional.get().getOrderDetails()){
-            finalFees += orderDetail.getProduct().getPrice() * orderDetail.getQunaitity();
+            finalFees += orderDetail.getProduct().getPrice() * orderDetail.getQuantity();
         }
         return finalFees;
     }

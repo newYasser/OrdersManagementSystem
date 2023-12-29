@@ -1,5 +1,6 @@
 package com.ecommerce.OrderAandNotificationsManagement.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
 public class Product {
 
     @Id
@@ -28,10 +28,10 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference
     private Category category;
 
     @OneToMany(mappedBy = "product")
+    @JsonManagedReference
     private List<OrderDetail> orderDetails;
-
-
 }

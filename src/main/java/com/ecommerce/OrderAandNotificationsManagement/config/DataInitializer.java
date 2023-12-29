@@ -42,7 +42,7 @@ public class DataInitializer implements CommandLineRunner {
 
         // Generate and insert 100 products with 10 different categories
         List<Product> products = new ArrayList<>();
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 20; i++) {
             int categoryId = (i % 10) + 1; // Assigning categories in a loop
             Category category = categoryRepository.findById(categoryId).orElse(null);
 

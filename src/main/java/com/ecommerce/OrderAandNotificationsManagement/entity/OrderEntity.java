@@ -1,6 +1,6 @@
 package com.ecommerce.OrderAandNotificationsManagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,15 +30,14 @@ public class OrderEntity {
     private boolean isShipped;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderDetail> orderDetails =  new ArrayList<>();;
+    @JsonManagedReference
+    private List<OrderDetail> orderDetails;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private Customer customer;
 
     @OneToOne(mappedBy = "order")
     private Notification notification;
-
-
-
 }

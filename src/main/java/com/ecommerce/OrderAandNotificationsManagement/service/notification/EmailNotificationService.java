@@ -8,7 +8,6 @@ public class EmailNotificationService extends NotificationService{
     @Override
     public void notifyOrderPlacement(OrderEntity order) {
 
-
     }
 
 

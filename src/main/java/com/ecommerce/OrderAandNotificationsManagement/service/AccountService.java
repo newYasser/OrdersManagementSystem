@@ -22,6 +22,7 @@ public class AccountService {
            Account newAccunt = accountRepository.save(account);
            customer.get().setAccount(newAccunt);
            customerRepository.save(customer.get());
+           return customer.get();
        }
        return null;
     }

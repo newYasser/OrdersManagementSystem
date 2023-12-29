@@ -3,6 +3,7 @@ package com.ecommerce.OrderAandNotificationsManagement.controller;
 
 import com.ecommerce.OrderAandNotificationsManagement.entity.Product;
 import com.ecommerce.OrderAandNotificationsManagement.repository.ProductRepository;
+import com.ecommerce.OrderAandNotificationsManagement.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,21 +18,11 @@ import java.util.Optional;
 public class ProductController {
 
     @Autowired
-    ProductRepository productRepo;
-
+    private ProductService productService;
     @GetMapping("/get-all-products")
     public ResponseEntity<List<Product>> getAllProducts() {
-        try {
-            List<Product> productList = new ArrayList<>();
-            productRepo.findAll().forEach(productList::add);
-            if (productList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(productList, HttpStatus.OK);
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Product> products =  productService.getAllProducts();
+        return new ResponseEntity<>(products,HttpStatus.OK);
     }
 }
 

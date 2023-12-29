@@ -1,6 +1,8 @@
 package com.ecommerce.OrderAandNotificationsManagement.controller;
 
 
+import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDTO;
+import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDetailDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderDetail;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
@@ -29,12 +31,13 @@ public class OrderController {
     private CustomerService customerService;
 
     @PostMapping("/add-simple-order/{customer_id}")
-    public ResponseEntity<OrderEntity>addSimpleOrderByCustomerId(
-            @RequestBody List<OrderDetail> orderDetails,
-            @PathVariable Integer customer_id){
-        Customer customer = customerService.getCustomerById(customer_id);
-        OrderEntity newOrder = simplerOrderService.saveOrderWithOrderDetailsAndCustomer(orderDetails,customer);
-        return new ResponseEntity<>(newOrder,HttpStatus.OK);
+    public ResponseEntity<List<OrderDetailDTO>> addSimpleOrderByCustomerId(
+            @RequestBody List<OrderDetailDTO> orderDetailDTO,
+            @PathVariable Integer customer_id) {
+//        OrderEntity order = new OrderEntity();
+//        order.setOrderDetails(orderDetailDTO);
+//        OrderEntity placedOrder = simplerOrderService.placeOrder(order, customer_id);
+        return new ResponseEntity<>(orderDetailDTO,HttpStatus.OK);
     }
 
     @PostMapping("/add-compound-order")
@@ -59,7 +62,7 @@ public class OrderController {
         return compoundOrderService.getCompoundOrderById(id);
     }
 
-    @DeleteMapping("/canel-simple-order/{id}")
+    @DeleteMapping("/cancel-simple-order/{id}")
     public void cancelSimpleOrder(@PathVariable Integer id){
         simplerOrderService.CanelOrderByOrderId(id);
     }

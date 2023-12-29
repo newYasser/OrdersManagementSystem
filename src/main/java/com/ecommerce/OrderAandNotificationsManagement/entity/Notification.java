@@ -1,6 +1,7 @@
 package com.ecommerce.OrderAandNotificationsManagement.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "notification_templete_id", nullable = false)
+    @JsonIgnore
     private NotificationTemplate notificationTemplate;
 
 }

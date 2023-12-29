@@ -1,6 +1,8 @@
 package com.ecommerce.OrderAandNotificationsManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.context.annotation.AnnotationConfigUtils;
@@ -13,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +31,7 @@ public class Customer {
     private Account account;
 
     @OneToMany(mappedBy = "customer")
-    @JsonIgnore
+    @JsonManagedReference
     private List<OrderEntity> orders;
 
 }

@@ -38,7 +38,7 @@ public class SimplerOrderService extends OrderService{
         OrderEntity order = orderRepository.getReferenceById(order_id);
         long orderPrice = 0;
         for(OrderDetail orderDetail: order.getOrderDetails()){
-            orderPrice += orderDetail.getQunaitity() * orderDetail.getProduct().getPrice();
+            orderPrice += orderDetail.getQuantity() * orderDetail.getProduct().getPrice();
         }
         long currentBalance = order.getCustomer().getAccount().getBalance();
         order.getCustomer().getAccount().setBalance(currentBalance + orderPrice);
