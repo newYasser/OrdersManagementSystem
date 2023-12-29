@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderDTO {
+    private Integer customer_id;
     private List<OrderDetailDTO> orderDetails;
 
 }

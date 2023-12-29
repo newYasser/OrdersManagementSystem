@@ -30,12 +30,11 @@ public class OrderController {
     @Autowired
     private ShipmentService shipmentServices;
 
-    @PostMapping("/add-simple-order/{customer_id}")
+    @PostMapping("/add-simple-order")
     public ResponseEntity<HttpStatus> addSimpleOrderByCustomerId(
-            @RequestBody OrderDTO orderDTO,
-            @PathVariable Integer customer_id) {
+            @RequestBody OrderDTO orderDTO) {
         try {
-            OrderEntity placedOrder = simplerOrderService.placeOrder(orderDTO, customer_id);
+            OrderEntity placedOrder = simplerOrderService.placeOrder(orderDTO, orderDTO.getCustomer_id());
 
             if (placedOrder != null) {
                 smsNotificationService.notifyOrderPlacement(placedOrder);

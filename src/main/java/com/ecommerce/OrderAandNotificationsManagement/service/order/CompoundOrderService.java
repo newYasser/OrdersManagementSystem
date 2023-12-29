@@ -1,6 +1,8 @@
 package com.ecommerce.OrderAandNotificationsManagement.service.order;
 
 
+import com.ecommerce.OrderAandNotificationsManagement.dto.CompoundOrderDTO;
+import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderDetail;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
@@ -28,9 +30,10 @@ public class CompoundOrderService extends OrderService {
        return shippingPaymentStrategy.calaculateShippingFees();
     }
 
-    public void addOrder(List<OrderEntity> orderEntities) {
-        for(OrderEntity order : orderEntities){
-            saveOrderWithOrderDetailsAndCustomer(order.getOrderDetails(),order.getCustomer());
+    public void placeOrder(CompoundOrderDTO compoundOrderDTO) {
+        placeOrder(compoundOrderDTO.getMainOrder(),compoundOrderDTO.getMainOrder().getCustomer_id());
+        for(OrderDTO order : compoundOrderDTO.getCompoundOrder()){
+           placeOrder(order, order.getCustomer_id());
         }
     }
 

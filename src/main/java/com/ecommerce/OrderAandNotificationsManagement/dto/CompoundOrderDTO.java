@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CompoundOrderDTO {
+    private OrderDTO mainOrder;
     private List<OrderDTO> compoundOrder;
 }
 

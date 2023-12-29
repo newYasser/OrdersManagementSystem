@@ -6,8 +6,6 @@ import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDTO;
 import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDetailDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.*;
 import com.ecommerce.OrderAandNotificationsManagement.repository.*;
-import com.ecommerce.OrderAandNotificationsManagement.service.OrderDetailService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
