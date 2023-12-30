@@ -5,7 +5,7 @@ import com.ecommerce.OrderAandNotificationsManagement.dto.CompoundOrderDTO;
 import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
 import com.ecommerce.OrderAandNotificationsManagement.service.ShipmentService;
-import com.ecommerce.OrderAandNotificationsManagement.service.notification.SendWithSMSNotificationService;
+import com.ecommerce.OrderAandNotificationsManagement.service.notification.SendSMSNotificationService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.CompoundOrderService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.SimplerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class OrderController {
     @Autowired
     private CompoundOrderService compoundOrderService;
     @Autowired
-    private SendWithSMSNotificationService emailNotificationService;
+    private SendSMSNotificationService emailNotificationService;
     @Autowired
-    private SendWithSMSNotificationService smsNotificationService;
+    private SendSMSNotificationService smsNotificationService;
     @Autowired
     private ShipmentService shipmentServices;
 

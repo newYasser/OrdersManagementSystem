@@ -30,9 +30,20 @@ public class Customer {
     @JoinColumn(name="account_id")
     private Account account;
 
+
     @OneToMany(mappedBy = "customer")
-//    @JsonManagedReference
+    @JsonManagedReference
     @ToString.Exclude
     private List<OrderEntity> orders;
+
+    @OneToMany
+    private List<Notification> notifications;
+
+    @JsonIgnore
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+
 
 }

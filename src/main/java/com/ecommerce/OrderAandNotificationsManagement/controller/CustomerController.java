@@ -1,6 +1,7 @@
 package com.ecommerce.OrderAandNotificationsManagement.controller;
 
 
+import com.ecommerce.OrderAandNotificationsManagement.dto.CustomerDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Account;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
 import com.ecommerce.OrderAandNotificationsManagement.service.CustomerService;
@@ -21,9 +22,9 @@ public class CustomerController {
     }
 
     @PostMapping("/add-customer")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> addCustomer(@RequestBody CustomerDTO customerDTO){
         try {
-            Customer addedCustomer = customerService.addCustomer(customer);
+            Customer addedCustomer = customerService.addCustomer(customerDTO);
             return new ResponseEntity<>(addedCustomer,HttpStatus.OK);
 
         }catch (Exception e){

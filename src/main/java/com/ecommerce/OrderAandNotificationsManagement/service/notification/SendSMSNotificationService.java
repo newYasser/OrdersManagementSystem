@@ -7,12 +7,12 @@ import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SendWithSMSNotificationService extends SendNotificationService{
+public class SendSMSNotificationService extends SendNotificationService{
     @Override
     public Notification notifyOrderPlacement(OrderEntity order) {
         String subject = "Order Placment Successfully(SMS)";
         Customer customer = order.getCustomer();
-        String content = "Dear" + customer.getAccount() + " , your booking of the ";
+        String content = "Dear" + customer.getName() + " , your booking of the ";
         for(OrderDetail orderDetail: order.getOrderDetails()){
             content += orderDetail.getProduct().getName() + " ";
         }
@@ -20,6 +20,7 @@ public class SendWithSMSNotificationService extends SendNotificationService{
         Notification notification = new Notification();
         notification.setMessage(content);
         notification.setSubject(subject);
+        notification.setCustomer(customer);
         notificationRepository.save(notification);
         return notification;
     }
@@ -28,10 +29,11 @@ public class SendWithSMSNotificationService extends SendNotificationService{
     public Notification notifyOrderShipping(OrderEntity order) {
         String subject = "Order Started Shipping(SMS)";
         Customer customer = order.getCustomer();
-        String content = "Dear" + customer.getAccount() + " , your order started to ship. ";
+        String content = "Dear" + customer.getName() + " , your order started to ship. ";
         Notification notification = new Notification();
         notification.setMessage(content);
         notification.setSubject(subject);
+        notification.setCustomer(customer);
         notificationRepository.save(notification);
         return notification;
     }

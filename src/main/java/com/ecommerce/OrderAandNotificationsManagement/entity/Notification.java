@@ -1,5 +1,6 @@
 package com.ecommerce.OrderAandNotificationsManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +23,9 @@ public class Notification {
 
     @Column(columnDefinition = "boolean default false")
     private boolean isSent;
+
+    @ManyToOne
+    @JsonIgnore
+    private Customer customer;
+
 }

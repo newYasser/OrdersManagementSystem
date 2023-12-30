@@ -1,5 +1,6 @@
 package com.ecommerce.OrderAandNotificationsManagement.controller;
 
+import com.ecommerce.OrderAandNotificationsManagement.dto.NotificationStatisticsDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Notification;
 import com.ecommerce.OrderAandNotificationsManagement.service.notification.NotificationService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.ShippingPaymentStrategy;
@@ -31,4 +32,13 @@ public class NotificationController {
         List<Notification>notifications = notificationService.getSentNotification();
         return new ResponseEntity<>(notifications,HttpStatus.OK);
     }
+    @GetMapping("/statistics")
+    public ResponseEntity<NotificationStatisticsDTO>getNotificationStatistics(){
+        NotificationStatisticsDTO notificationStatisticsDTO = new NotificationStatisticsDTO();
+        notificationStatisticsDTO.setMostNotifiedEmail(notificationService.getMostNotifiedEmail());
+        notificationStatisticsDTO.setMostNotifiedPhoneNumber(notificationService.getMostNotifiedPhoneNumber());
+        notificationStatisticsDTO.setMostUsedTemplete(notificationService.getMostUsedMessage());
+        return new ResponseEntity<>(notificationStatisticsDTO,HttpStatus.OK);
+    }
+
 }

@@ -55,13 +55,13 @@ public class DataInitializer implements CommandLineRunner {
 
         // Inserting Customer data
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer(null, "John Doe", "john.doe@example.com", "+1234567890", null, null));
-        customers.add(new Customer(null, "Alice Smith", "alice.smith@example.com", "+9876543210", null, null));
-        customers.add(new Customer(null, "Bob Johnson", "bob.johnson@example.com", "+1112223333", null, null));
-        customers.add(new Customer(null, "Eva Williams", "eva.williams@example.com", "+4445556666", null, null));
-        customers.add(new Customer(null, "David Davis", "david.davis@example.com", "+7778889999", null, null));
-        customers.add(new Customer(null, "Grace Brown", "grace.brown@example.com", "+3332221111", null, null));
-        customers.add(new Customer(null, "Mohammed Yasser", "mohammedyasser0110@gamil.com", "+201009575293", null, null));
+        customers.add(new Customer(null, "John Doe", "john.doe@example.com", "+1234567890", null, null,null));
+        customers.add(new Customer(null, "Alice Smith", "alice.smith@example.com", "+9876543210", null, null,null));
+        customers.add(new Customer(null, "Bob Johnson", "bob.johnson@example.com", "+1112223333", null, null,null));
+        customers.add(new Customer(null, "Eva Williams", "eva.williams@example.com", "+4445556666", null, null,null));
+        customers.add(new Customer(null, "David Davis", "david.davis@example.com", "+7778889999", null, null,null));
+        customers.add(new Customer(null, "Grace Brown", "grace.brown@example.com", "+3332221111", null, null,null));
+        customers.add(new Customer(null, "Mohammed Yasser", "mohammedyasser0110@gamil.com", "+201009575293", null, null,null));
 
         customerRepository.saveAll(customers);
         // Create accounts

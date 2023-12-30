@@ -1,5 +1,6 @@
 package com.ecommerce.OrderAandNotificationsManagement.service;
 
+import com.ecommerce.OrderAandNotificationsManagement.dto.CustomerDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Account;
 import com.ecommerce.OrderAandNotificationsManagement.entity.Customer;
 import com.ecommerce.OrderAandNotificationsManagement.repository.AccountRepository;
@@ -17,10 +18,12 @@ public class CustomerService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public Customer addCustomer(Customer customer){
-        if(customer != null)
-            return customerRepository.save(customer);
-        return null;
+    public Customer addCustomer(CustomerDTO customerDTO){
+        String email = customerDTO.getEmail();
+        String name = customerDTO.getName();
+        String phoneNumber = customerDTO.getPhoneNumber();
+        Customer customer = new Customer(null,name,email,phoneNumber,null,null,null);
+        return customerRepository.save(customer);
     }
 
     public Customer addAccountUsingCustomerId(Integer id, Account account){
