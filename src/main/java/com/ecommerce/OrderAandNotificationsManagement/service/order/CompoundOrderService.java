@@ -30,11 +30,13 @@ public class CompoundOrderService extends OrderService {
        return shippingPaymentStrategy.calaculateShippingFees();
     }
 
-    public void placeOrder(CompoundOrderDTO compoundOrderDTO) {
-        placeOrder(compoundOrderDTO.getMainOrder(),compoundOrderDTO.getMainOrder().getCustomer_id());
+    public List<OrderEntity> placeOrder(CompoundOrderDTO compoundOrderDTO) {
+        List<OrderEntity> orders = new ArrayList<>();
+         orders.add(placeOrder(compoundOrderDTO.getMainOrder(),compoundOrderDTO.getMainOrder().getCustomer_id()));
         for(OrderDTO order : compoundOrderDTO.getCompoundOrder()){
-           placeOrder(order, order.getCustomer_id());
+            orders.add(placeOrder(order, order.getCustomer_id()));
         }
+        return orders;
     }
 
     public List<OrderEntity>getCompoundOrderById(Integer id){

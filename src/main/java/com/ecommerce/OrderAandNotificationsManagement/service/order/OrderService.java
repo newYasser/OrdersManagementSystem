@@ -73,7 +73,7 @@ public abstract class OrderService {
     public OrderEntity getOrderById(Integer id){
         return orderRepository.findById(id).get();
     }
-    public double calculateTotalCost(Integer order_id){
+    public long calculateTotalCost(Integer order_id){
         long finalFees = 0;
         Optional<OrderEntity> orderOptional = orderRepository.findById(order_id);
 

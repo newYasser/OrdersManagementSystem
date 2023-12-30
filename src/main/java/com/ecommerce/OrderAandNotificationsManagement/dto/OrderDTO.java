@@ -13,5 +13,4 @@ import java.util.List;
 public class OrderDTO {
     private Integer customer_id;
     private List<OrderDetailDTO> orderDetails;
-
 }

@@ -7,7 +7,7 @@ import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SMSNotificationService extends NotificationService{
+public class SendWithSMSNotificationService extends SendNotificationService{
     @Override
     public Notification notifyOrderPlacement(OrderEntity order) {
         String subject = "Order Placment Successfully(SMS)";

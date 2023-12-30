@@ -1,11 +1,11 @@
 package com.ecommerce.OrderAandNotificationsManagement.controller;
 
 
+import com.ecommerce.OrderAandNotificationsManagement.dto.CompoundOrderDTO;
 import com.ecommerce.OrderAandNotificationsManagement.dto.OrderDTO;
 import com.ecommerce.OrderAandNotificationsManagement.entity.OrderEntity;
 import com.ecommerce.OrderAandNotificationsManagement.service.ShipmentService;
-import com.ecommerce.OrderAandNotificationsManagement.service.notification.EmailNotificationService;
-import com.ecommerce.OrderAandNotificationsManagement.service.notification.SMSNotificationService;
+import com.ecommerce.OrderAandNotificationsManagement.service.notification.SendWithSMSNotificationService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.CompoundOrderService;
 import com.ecommerce.OrderAandNotificationsManagement.service.order.SimplerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class OrderController {
     @Autowired
     private CompoundOrderService compoundOrderService;
     @Autowired
-    private EmailNotificationService emailNotificationService;
+    private SendWithSMSNotificationService emailNotificationService;
     @Autowired
-    private SMSNotificationService smsNotificationService;
+    private SendWithSMSNotificationService smsNotificationService;
     @Autowired
     private ShipmentService shipmentServices;
 
@@ -55,8 +55,13 @@ public class OrderController {
         return new ResponseEntity<>(order,HttpStatus.OK);
     }
     @PostMapping("/add-compound-order")
-    public void addCompoundOrderBy(@RequestBody List<OrderEntity> orders) {
-        compoundOrderService.addOrder(orders);
+    public void addCompoundOrderBy(@RequestBody CompoundOrderDTO compoundOrderDTO) {
+        List<OrderEntity>orders = compoundOrderService.placeOrder(compoundOrderDTO);
+        compoundOrderService.payOrdersCompoundOrder(orders);
+        for(OrderEntity order:orders){
+            emailNotificationService.notifyOrderPlacement(order);
+            smsNotificationService.notifyOrderPlacement(order);
+        }
     }
     @PutMapping("/pay-simple-order/{order_id}")
     public void paySimpleOrderWithOrderId(@PathVariable Integer order_id){
@@ -75,6 +80,7 @@ public class OrderController {
     public List<OrderEntity> getCompoundOrderById(@PathVariable Integer id){
         return compoundOrderService.getCompoundOrderById(id);
     }
+
     @PostMapping ("/ship-simple-order/{order_id}")
     public ResponseEntity<HttpStatus>shipSimpleOrder(@PathVariable Integer order_id){
         OrderEntity order = simplerOrderService.getOrderById(order_id);
