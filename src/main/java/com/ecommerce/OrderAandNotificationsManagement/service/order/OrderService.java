@@ -111,21 +111,6 @@ public abstract class OrderService {
             customerRepository.save(customer);
         }
     }
-    public OrderEntity saveOrderWithOrderDetailsAndCustomer(List<OrderDetail> orderDetails, Customer customer){
-        OrderEntity orderEntity = new OrderEntity();
-        orderRepository.save(orderEntity);
-        orderEntity.setCustomer(customer);
-        orderEntity.setTime(Time.valueOf(LocalTime.now()));
-        orderEntity.setDate(Date.valueOf(LocalDate.now()));
-        for(OrderDetail orderDetail: orderDetails){
-            OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
-            orderDetail.setOrder(orderEntity);
-            orderEntity.getOrderDetails().add(newOrderDetail);
-        }
-        return orderRepository.save(orderEntity);
-
-    }
-
     public void cancelSimpleOrderPlacment(Integer order_id){
         Optional<OrderEntity>orderOptional = orderRepository.findById(order_id);
         if(orderOptional.isPresent()){
@@ -138,12 +123,16 @@ public abstract class OrderService {
             long currentBalance = customer.getAccount().getBalance();
             customer.getAccount().setBalance(currentBalance + orderFees);
             order.setCustomer(customer);
-            orderRepository.save(order);
-            orderRepository.deleteById(order_id);
+            customerRepository.save(order.getCustomer());
+            for(OrderDetail orderDetail : order.getOrderDetails()){
+                orderDetailRepository.delete(orderDetail);
+            }
+            orderRepository.delete(order);
         }
     }
 
     public void cancelSimpleOrderShipment(Integer order_id){
+        cancelSimpleOrderPlacment(order_id);
         Optional<OrderEntity>orderOptional = orderRepository.findById(order_id);
         if(orderOptional.isPresent()) {
             OrderEntity order = orderOptional.get();

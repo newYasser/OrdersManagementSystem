@@ -22,8 +22,13 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
     @GetMapping("/to-be-sent")
-    public ResponseEntity<List<Notification>> getNotificationToBeSent(){
-        List<Notification>notifications = notificationService.getAllNotifications();
+    public ResponseEntity<List<Notification>> getNotificationsToBeSent(){
+        List<Notification>notifications = notificationService.getTobeSentNotification();
+        return new ResponseEntity<>(notifications,HttpStatus.OK);
+    }
+    @GetMapping("/sent")
+    public ResponseEntity<List<Notification>> getSentNotifications(){
+        List<Notification>notifications = notificationService.getSentNotification();
         return new ResponseEntity<>(notifications,HttpStatus.OK);
     }
 }

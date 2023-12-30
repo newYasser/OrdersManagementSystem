@@ -40,14 +40,7 @@ public class CompoundOrderService extends OrderService {
     }
 
     public List<OrderEntity>getCompoundOrderById(Integer id){
-        List<OrderEntity>orders = orderRepository.findAll();
-        List<OrderEntity>compoundOrder = new ArrayList<>();
-        for(OrderEntity order:orders){
-            if(order.getId().equals(id)){
-                compoundOrder.add(order);
-            }
-        }
-        return compoundOrder;
+       return orderRepository.findAll();
     }
 
     public void payOrdersCompoundOrder(List<OrderEntity>orders) {

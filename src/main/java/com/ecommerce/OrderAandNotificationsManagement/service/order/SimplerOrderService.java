@@ -34,7 +34,7 @@ public class SimplerOrderService extends OrderService{
         orderRepository.deleteById(id);
     }
 
-    public void CanelOrderByOrderId(Integer order_id){
+    public void canelOrderByOrderId(Integer order_id){
         OrderEntity order = orderRepository.getReferenceById(order_id);
         long orderPrice = 0;
         for(OrderDetail orderDetail: order.getOrderDetails()){
@@ -42,8 +42,11 @@ public class SimplerOrderService extends OrderService{
         }
         long currentBalance = order.getCustomer().getAccount().getBalance();
         order.getCustomer().getAccount().setBalance(currentBalance + orderPrice);
+        customerRepository.save(order.getCustomer());
         deleteOrderById(order_id);
     }
+
+
 
 
     public OrderEntity listOrder(Integer id) {

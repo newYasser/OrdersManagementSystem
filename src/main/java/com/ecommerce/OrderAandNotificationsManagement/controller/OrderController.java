@@ -30,11 +30,11 @@ public class OrderController {
     @Autowired
     private ShipmentService shipmentServices;
 
-    @PostMapping("/add-simple-order")
+    @PostMapping("/add-simple-order/{id}")
     public ResponseEntity<HttpStatus> addSimpleOrderByCustomerId(
-            @RequestBody OrderDTO orderDTO) {
+            @RequestBody OrderDTO orderDTO,@PathVariable Integer id) {
         try {
-            OrderEntity placedOrder = simplerOrderService.placeOrder(orderDTO, orderDTO.getCustomer_id());
+            OrderEntity placedOrder = simplerOrderService.placeOrder(orderDTO, id);
 
             if (placedOrder != null) {
                 smsNotificationService.notifyOrderPlacement(placedOrder);
@@ -80,7 +80,6 @@ public class OrderController {
     public List<OrderEntity> getCompoundOrderById(@PathVariable Integer id){
         return compoundOrderService.getCompoundOrderById(id);
     }
-
     @PostMapping ("/ship-simple-order/{order_id}")
     public ResponseEntity<HttpStatus>shipSimpleOrder(@PathVariable Integer order_id){
         OrderEntity order = simplerOrderService.getOrderById(order_id);
@@ -91,10 +90,15 @@ public class OrderController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping("/cancel-simple-order/{id}")
-    public void cancelSimpleOrder(@PathVariable Integer id){
-        simplerOrderService.CanelOrderByOrderId(id);
+    @DeleteMapping("/cancel-order-placment/{id}")
+    public void cancelSimpleOrderPlacment(@PathVariable Integer id){
+        simplerOrderService.cancelSimpleOrderPlacment(id);
     }
+    @DeleteMapping("/cancel-order-shipping/{id}")
+    public void cancelSimpleOrderShipping(@PathVariable Integer id){
+        simplerOrderService.cancelSimpleOrderShipment(id);
+    }
+
 
 
 }
