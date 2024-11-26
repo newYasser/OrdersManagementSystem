@@ -6,6 +6,7 @@ import com.OrdersManagmentSystem.exception.ProductNotFoundException;
 import com.OrdersManagmentSystem.repository.CategoryRepository;
 import com.OrdersManagmentSystem.repository.ProductRepository;
 import com.OrdersManagmentSystem.request.AddProductRequest;
+import com.OrdersManagmentSystem.request.ProductUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,9 +63,26 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public void updateProduct(Product product, Long id) {
+    public Product updateProduct(ProductUpdateRequest request, Long id) {
+
+        return productRepository.findById(id)
+                .map(product -> updateProduct(product,request))
+                .map(productRepository::save)
+                .orElseThrow(() -> new ProductNotFoundException("Product Not Found"));
 
     }
+
+    private Product updateProduct(Product product, ProductUpdateRequest request){
+        product.setName(request.getName());
+        product.setBrand(request.getBrand());
+        product.setPrice(request.getPrice());
+        product.setDescription(request.getDescription());
+        product.setQuantity(request.getQuantity());
+        Category category = categoryRepository.findByName(request.getCategory().getName());
+        product.setCategory(category);
+        return product;
+    }
+
 
     @Override
     public List<Product> getAllProducts() {
