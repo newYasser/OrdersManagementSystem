@@ -3,6 +3,7 @@ package com.OrdersManagmentSystem.service;
 import com.OrdersManagmentSystem.entity.Category;
 import com.OrdersManagmentSystem.entity.Product;
 import com.OrdersManagmentSystem.exception.ProductNotFoundException;
+import com.OrdersManagmentSystem.repository.CategoryRepository;
 import com.OrdersManagmentSystem.repository.ProductRepository;
 import com.OrdersManagmentSystem.request.AddProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.color.ProfileDataException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -17,20 +19,31 @@ public class ProductServiceImp implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     public Product addProduct(AddProductRequest request) {
 
-        return null;
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet(() -> {
+                    Category newCategory = new Category(request.getCategory().getName());
+                    return categoryRepository.save(newCategory);
+                });
+
+
+        request.setCategory(category);
+        return productRepository.save(creatProduct(request));
     }
 
-    private Product addProduct(AddProductRequest request, Category category){
+    private Product creatProduct(AddProductRequest request){
         return new Product(
                 request.getName(),
                 request.getDescription(),
                 request.getBrand(),
                 request.getPrice(),
                 request.getQuantity(),
-                category
+                request.getCategory()
 
         );
     }
