@@ -1,4 +1,4 @@
-package com.OrdersManagmentSystem.service;
+package com.OrdersManagmentSystem.service.impl;
 
 import com.OrdersManagmentSystem.entity.Category;
 import com.OrdersManagmentSystem.entity.Product;
@@ -7,6 +7,7 @@ import com.OrdersManagmentSystem.repository.CategoryRepository;
 import com.OrdersManagmentSystem.repository.ProductRepository;
 import com.OrdersManagmentSystem.request.AddProductRequest;
 import com.OrdersManagmentSystem.request.ProductUpdateRequest;
+import com.OrdersManagmentSystem.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
