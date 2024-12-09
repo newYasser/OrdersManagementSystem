@@ -107,7 +107,7 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public List<Product> getProductsByName(String name) {
-        return productRepository.findByCategoryName(name);
+        return productRepository.findByName(name);
     }
 
     @Override
