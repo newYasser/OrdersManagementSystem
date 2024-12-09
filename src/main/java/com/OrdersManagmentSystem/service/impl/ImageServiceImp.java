@@ -44,7 +44,7 @@ public class ImageServiceImp implements ImageService {
                 Image image = new Image();
                 image.setName(file.getOriginalFilename());
                 image.setType(file.getContentType());
-                image.setImages(new SerialBlob(file.getBytes()));
+                image.setImage(new SerialBlob(file.getBytes()));
                 image.setProduct(product);
 
                 String downloadUrl = "/api/v1/images/image/download/";
@@ -73,7 +73,7 @@ public class ImageServiceImp implements ImageService {
         Image image = getImageById(id);
         try {
             image.setName(file.getOriginalFilename());
-            image.setImages(new SerialBlob(file.getBytes()));
+            image.setImage(new SerialBlob(file.getBytes()));
             imageRepository.save(image);
         }
         catch (IOException | SQLException e){
